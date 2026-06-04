@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUANDO FOKIN PAGAN</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+h1 {
+    color: #00ff88;
+    margin-bottom: 30px;
+}
+
+.meses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+button {
+    background: #222;
+    color: white;
+    border: 1px solid #444;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #00ff88;
+    color: black;
+}
+
+.resultado {
+    background: #222;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    margin: auto;
+}
+
+.mes-seleccionado {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.fecha-pago {
+    font-size: 48px;
+    font-weight: bold;
+    color: #00ff88;
+}
+</style>
+</head>
+<body>
+
+<h1>CUANDO FOKIN PAGAN</h1>
+
+<div class="meses">
+    <button onclick="mostrarPago('Junio','26 de junio')">Junio</button>
+    <button onclick="mostrarPago('Julio','29 de julio')">Julio</button>
+    <button onclick="mostrarPago('Agosto','27 de agosto')">Agosto</button>
+    <button onclick="mostrarPago('Septiembre','28 de septiembre')">Septiembre</button>
+    <button onclick="mostrarPago('Octubre','28 de octubre')">Octubre</button>
+    <button onclick="mostrarPago('Noviembre','27 de noviembre')">Noviembre</button>
+    <button onclick="mostrarPago('Diciembre','23 de diciembre')">Diciembre</button>
+</div>
+
+<div class="resultado">
+    <div id="mes" class="mes-seleccionado">
+        Selecciona un mes
+    </div>
+
+    <div id="fecha" class="fecha-pago">
+        📅
+    </div>
+</div>
+
+<script>
+function mostrarPago(mes, fecha) {
+    document.getElementById("mes").textContent = mes;
+    document.getElementById("fecha").textContent = fecha;
+const pagos = {
+    5: ["Junio", "26 de junio"],
+    6: ["Julio", "29 de julio"],
+    7: ["Agosto", "27 de agosto"],
+    8: ["Septiembre", "28 de septiembre"],
+    9: ["Octubre", "28 de octubre"],
+    10: ["Noviembre", "27 de noviembre"],
+    11: ["Diciembre", "23 de diciembre"]
+};
+
+const mesActual = new Date().getMonth();
+
+if (pagos[mesActual]) {
+    mostrarPago(
+        pagos[mesActual][0],
+        pagos[mesActual][1]
+    );
+}
+</script>
+
+</body>
+</html>
