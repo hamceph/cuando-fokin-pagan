@@ -3,113 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>CUANDO FOKIN PAGAN</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
-    text-align: center;
-    padding: 30px;
+
+*{
+    box-sizing:border-box;
 }
 
-h1 {
-    color: #00ff88;
-    margin-bottom: 30px;
+body{
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    text-align:center;
+    padding:20px;
 }
 
-.meses {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 40px;
+h1{
+    color:#00ff88;
+    font-size:3rem;
+    margin-bottom:20px;
 }
 
-button {
-    background: #222;
-    color: white;
-    border: 1px solid #444;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
+#meme{
+    width:350px;
+    max-width:90%;
+    border-radius:20px;
+    margin-bottom:25px;
+    box-shadow:0 0 25px rgba(0,255,136,.3);
 }
 
-button:hover {
-    background: #00ff88;
-    color: black;
+.botones{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:25px;
 }
 
-.resultado {
-    background: #222;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
-    margin: auto;
+button{
+    border:none;
+    border-radius:12px;
+    padding:12px 18px;
+    cursor:pointer;
+    background:#222;
+    color:white;
+    font-weight:bold;
+    transition:.2s;
 }
 
-.mes-seleccionado {
-    font-size: 24px;
-    margin-bottom: 15px;
+button:hover{
+    transform:translateY(-2px);
 }
 
-.fecha-pago {
-    font-size: 48px;
-    font-weight: bold;
-    color: #00ff88;
+button.activo{
+    background:#00ff88;
+    color:black;
 }
+
+.card{
+    background:#1b1b1b;
+    max-width:600px;
+    margin:auto;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(255,255,255,.08);
+}
+
+#mes{
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+#fecha{
+    font-size:52px;
+    color:#00ff88;
+    font-weight:bold;
+}
+
+#estado{
+    margin-top:20px;
+    font-size:24px;
+}
+
+#contador{
+    margin-top:10px;
+    font-size:18px;
+    opacity:.9;
+}
+
 </style>
 </head>
+
 <body>
 
 <h1>CUANDO FOKIN PAGAN</h1>
 
-<div class="meses">
-    <button onclick="mostrarPago('Junio','26 de junio')">Junio</button>
-    <button onclick="mostrarPago('Julio','29 de julio')">Julio</button>
-    <button onclick="mostrarPago('Agosto','27 de agosto')">Agosto</button>
-    <button onclick="mostrarPago('Septiembre','28 de septiembre')">Septiembre</button>
-    <button onclick="mostrarPago('Octubre','28 de octubre')">Octubre</button>
-    <button onclick="mostrarPago('Noviembre','27 de noviembre')">Noviembre</button>
-    <button onclick="mostrarPago('Diciembre','23 de diciembre')">Diciembre</button>
+<img
+id="meme"
+src="cuando-fokin-pagan.jpg"
+alt="Cuando fokin pagan">
+
+<div class="botones">
+
+<button data-mes="junio">Junio</button>
+<button data-mes="julio">Julio</button>
+<button data-mes="agosto">Agosto</button>
+<button data-mes="septiembre">Septiembre</button>
+<button data-mes="octubre">Octubre</button>
+<button data-mes="noviembre">Noviembre</button>
+<button data-mes="diciembre">Diciembre</button>
+
 </div>
 
-<div class="resultado">
-    <div id="mes" class="mes-seleccionado">
-        Selecciona un mes
-    </div>
+<div class="card">
 
-    <div id="fecha" class="fecha-pago">
-        📅
-    </div>
+<div id="mes"></div>
+
+<div id="fecha"></div>
+
+<div id="estado"></div>
+
+<div id="contador"></div>
+
 </div>
 
 <script>
-function mostrarPago(mes, fecha) {
-    document.getElementById("mes").textContent = mes;
-    document.getElementById("fecha").textContent = fecha;
+
 const pagos = {
-    5: ["Junio", "26 de junio"],
-    6: ["Julio", "29 de julio"],
-    7: ["Agosto", "27 de agosto"],
-    8: ["Septiembre", "28 de septiembre"],
-    9: ["Octubre", "28 de octubre"],
-    10: ["Noviembre", "27 de noviembre"],
-    11: ["Diciembre", "23 de diciembre"]
+    junio:{dia:26, mes:5, texto:"26 de junio"},
+    julio:{dia:29, mes:6, texto:"29 de julio"},
+    agosto:{dia:27, mes:7, texto:"27 de agosto"},
+    septiembre:{dia:28, mes:8, texto:"28 de septiembre"},
+    octubre:{dia:28, mes:9, texto:"28 de octubre"},
+    noviembre:{dia:27, mes:10, texto:"27 de noviembre"},
+    diciembre:{dia:23, mes:11, texto:"23 de diciembre"}
 };
+
+function seleccionarMes(nombre){
+
+    document.querySelectorAll("button")
+        .forEach(b=>b.classList.remove("activo"));
+
+    document.querySelector([data-mes="${nombre}"])
+        .classList.add("activo");
+
+    const pago = pagos[nombre];
+
+    document.getElementById("mes").textContent =
+        nombre.charAt(0).toUpperCase() + nombre.slice(1);
+
+    document.getElementById("fecha").textContent =
+        pago.texto;
+
+    const hoy = new Date();
+
+    const fechaPago = new Date(
+        hoy.getFullYear(),
+        pago.mes,
+        pago.dia,
+        0,0,0
+    );
+
+    const diferencia =
+        fechaPago.getTime() - hoy.getTime();
+
+    const dias =
+        Math.ceil(
+            diferencia /
+            (1000*60*60*24)
+        );
+
+    if(dias <= 0){
+
+        document.getElementById("estado")
+            .textContent = "💰 FOKIN PAGARON";
+
+        document.getElementById("contador")
+            .textContent = "Ya deberías tener platita 😎";
+
+        document.getElementById("meme").src =
+            "fokin-pagaron.jpg";
+    }
+    else{
+
+        document.getElementById("estado")
+            .textContent = "😭 CUANDO FOKIN PAGAN";
+
+        document.getElementById("contador")
+            .textContent =
+            Faltan ${dias} día(s);
+
+        document.getElementById("meme").src =
+            "cuando-fokin-pagan.jpg";
+    }
+}
+
+document.querySelectorAll("button")
+.forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        seleccionarMes(btn.dataset.mes);
+
+    });
+
+});
 
 const mesActual = new Date().getMonth();
 
-if (pagos[mesActual]) {
-    mostrarPago(
-        pagos[mesActual][0],
-        pagos[mesActual][1]
-    );
+const mapaMeses = {
+    5:"junio",
+    6:"julio",
+    7:"agosto",
+    8:"septiembre",
+    9:"octubre",
+    10:"noviembre",
+    11:"diciembre"
+};
+
+if(mapaMeses[mesActual]){
+    seleccionarMes(mapaMeses[mesActual]);
+}else{
+    seleccionarMes("junio");
 }
-}
+
 </script>
 
 </body>
